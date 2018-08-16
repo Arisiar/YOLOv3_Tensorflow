@@ -1,7 +1,7 @@
 # YOLOv3_Tensorflow
 
 A simple tenssorflow implement for yolov3. 
-(you can get the weight in the release)
+(you can get the weight in the releases)
 
 For more detail:
 
