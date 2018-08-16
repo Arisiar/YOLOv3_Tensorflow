@@ -74,8 +74,6 @@ class YOLO(object):
         print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
 
         
-        # Visualisation#################################################################################################
-        
         colors = []
         cls = ''
         color = tuple(np.random.randint(0, 256, 3))
