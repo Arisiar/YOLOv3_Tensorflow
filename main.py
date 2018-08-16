@@ -8,8 +8,8 @@ import tensorflow as tf
 import cv2
 
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_string('input_img', '1.jpg', 'Input image')
-tf.app.flags.DEFINE_string('output_img', '2.jpg', 'Output image')
+tf.app.flags.DEFINE_string('input_img', 'input.jpg', 'Input image')
+tf.app.flags.DEFINE_string('output_img', 'result.jpg', 'Output image')
 
 class YOLO(object):
     def __init__(self, sess):
