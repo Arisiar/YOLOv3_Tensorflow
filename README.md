@@ -44,6 +44,9 @@ def IOU(box1, box2):
     return iou
 ```
 ```box1```: ground-truth bounding boxes
+
 ```box2```: predicted bounding boxes
+
 ```iou```: area of overlap / area of union
-<img src="./img/IOU.jpg" width="900px/">
+
+<img src="./img/IOU.jpg" width="300px/">
