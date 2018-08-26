@@ -24,3 +24,22 @@ Here are some result in our test:
 ``` bash
 python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 ``` 
+
+## Code introduction
+
+- IOU
+``` bash
+def IOU(box1, box2):
+
+    b1_x0, b1_y0, b1_x1, b1_y1 = box1
+    b2_x0, b2_y0, b2_x1, b2_y1 = box2
+    int_x0 = max(b1_x0, b2_x0)
+    int_y0 = max(b1_y0, b2_y0)
+    int_x1 = min(b1_x1, b2_x1)
+    int_y1 = min(b1_y1, b2_y1)
+    int_area = (int_x1 - int_x0) * (int_y1 - int_y0)
+    b1_area = (b1_x1 - b1_x0) * (b1_y1 - b1_y0)
+    b2_area = (b2_x1 - b2_x0) * (b2_y1 - b2_y0)
+    iou = int_area / (b1_area + b2_area - int_area + 1e-05)
+    return iou
+```
