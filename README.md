@@ -27,7 +27,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ## Code Introduction
 
-- IOU
+- #IOU
 ``` bash
 def IOU(box1, box2):
 
@@ -51,7 +51,7 @@ def IOU(box1, box2):
 
 <img src="./img/iou.jpg" width="900px/">
 
-- NMS
+- #NMS
 ``` bash
 def NMS(cls_boxes, cls_scores, iou_threshold):
             
