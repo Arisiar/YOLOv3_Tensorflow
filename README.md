@@ -25,7 +25,7 @@ Here are some result in our test:
 python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 ``` 
 
-## Code introduction
+## Code Introduction
 
 - IOU
 ``` bash
@@ -43,3 +43,7 @@ def IOU(box1, box2):
     iou = int_area / (b1_area + b2_area - int_area + 1e-05)
     return iou
 ```
+```box1```: ground-truth bounding boxes
+```box2```: predicted bounding boxes
+```iou```: area of overlap / area of union
+<img src="./img/IOU.jpg" width="900px/">
