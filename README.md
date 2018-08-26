@@ -49,4 +49,4 @@ def IOU(box1, box2):
 
 ```iou```: area of overlap / area of union
 
-<img src="./img/IOU.jpg" width="300px/">
+<img src="./img/iou.jpg" width="300px/">
