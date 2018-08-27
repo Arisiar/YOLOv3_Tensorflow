@@ -43,9 +43,20 @@ def NMS(cls_boxes, cls_scores, iou_threshold):
     cls_boxes =  cls_boxes[iou_mask, :]
     cls_scores = cls_scores[iou_mask]               
     max_box = np.reshape(max_box, [1,-1])
-    max_score = np.reshape(max_score, [-1])
-    
+    max_score = np.reshape(max_score, [-1])   
     return cls_boxes, cls_scores, max_box, max_score 
+```
+``` bash
+for Class in range(len(self.class_names)):          
+            
+    cls_boxes = boxes[np.array(mask[:, Class]), :]   
+    cls_scores = scores[np.array(mask[:, Class]), Class]
+
+    while cls_boxes.shape[0] != 0:
+        cls_boxes, cls_scores, max_box, max_score = NMS(cls_boxes, cls_scores, _IOU_THRESHOLD)             
+        boxes_.append(max_box)                
+        scores_.append(max_score)
+        classes_.append(np.ones_like(max_score, dtype=int) * Class)
 ```
 
 - IOU
