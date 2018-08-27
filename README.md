@@ -29,7 +29,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 - Network Architecture
 
-<img src="./img/network.jpg" width="500px/">
+<img src="./img/network.jpg" width="700px/">
 
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
