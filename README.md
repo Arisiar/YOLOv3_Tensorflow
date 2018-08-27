@@ -27,7 +27,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ## Detail
 
-The outputs from the yoloV3 model are `boxes` and `scores` which have shape [10647, 4] and [10647, 80].
+The outputs from the yoloV3 model are `boxes` and `scores`.(shape: [10647, 4], [10647, 80])
 
 The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box and 80 class predictions in COCO
 
