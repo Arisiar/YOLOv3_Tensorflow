@@ -33,6 +33,9 @@ The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box and 80 
 
 (10647 = the number of grid cells(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
 ``` bash
+boxes, scores = self.sess.run([self.boxes, self.scores], 
+                               feed_dict={self.inputs: inputs, self.ratio: ratio})
+
 mask = scores >= _SCORE_THRESHOLD
 boxes_ = []
 scores_ = []
