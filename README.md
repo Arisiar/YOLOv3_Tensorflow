@@ -27,11 +27,6 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ## Detail
 
-The outputs from the yoloV3 model are `boxes` and `scores`.(shape: [10647, 4], [10647, 80])
-
-The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box and 80 class predictions in COCO
-
-(10647 = the number of grid cells(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
                                feed_dict={self.inputs: inputs, self.ratio: ratio})
@@ -48,8 +43,16 @@ for Class in range(len(self.class_names)):
         cls_boxes, cls_scores, max_box, max_score = NMS(cls_boxes, cls_scores, _IOU_THRESHOLD)             
         boxes_.append(max_box)                
         scores_.append(max_score)
-        classes_.append(np.ones_like(max_score, dtype=int) * Class)
+        classes_.append(np.ones_like(max_score, dtype=int) * Class)       
 ```
+
+The outputs from the yoloV3 model are `boxes` and `scores` with shape [10647, 4] and [10647, 80].
+(10647 = the number of grid cells(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
+
+The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box and 80 class predictions in COCO.
+
+
+
 - NMS
 ``` bash
 def NMS(cls_boxes, cls_scores, iou_threshold):
