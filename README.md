@@ -29,9 +29,9 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 The outputs from the yoloV3 model are `boxes` and `scores` which have shape [10647, 4] and [10647, 80].
 
-The network predicts 4 coordinates for each bounding box and 80 class predictions in COCO.
-
 (10647 = the number of grid cells(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
+
+The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box and 80 class predictions in COCO
 
 ``` bash
 mask = scores >= _SCORE_THRESHOLD
