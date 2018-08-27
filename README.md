@@ -31,7 +31,7 @@ The outputs from the yoloV3 model are `boxes` and `scores` which have shape [106
 
 The network predicts 4 coordinates for each bounding box and 80 class predictions in COCO.
 
-(10647 = the number of grid cell(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
+(10647 = the number of grid cells(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes)
 
 ``` bash
 mask = scores >= _SCORE_THRESHOLD
