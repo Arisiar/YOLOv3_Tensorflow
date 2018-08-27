@@ -27,6 +27,27 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ## Code Introduction
 
+- NMS
+``` bash
+def NMS(cls_boxes, cls_scores, iou_threshold):
+            
+    max_idx = np.argmax(cls_scores, 0)  
+    max_box = cls_boxes[max_idx]
+    max_score = np.array(cls_scores[max_idx])
+    max_mask = cls_boxes !=  max_box             
+    max_mask = np.reshape(max_mask[:, 0:1], [-1])
+    cls_boxes = cls_boxes[np.array(max_mask), :]
+    cls_scores = cls_scores[np.array(max_mask)]
+    ious = [IOU(max_box, x) for x in cls_boxes]
+    iou_mask = np.array(ious) <  iou_threshold
+    cls_boxes =  cls_boxes[iou_mask, :]
+    cls_scores = cls_scores[iou_mask]               
+    max_box = np.reshape(max_box, [1,-1])
+    max_score = np.reshape(max_score, [-1])
+    
+    return cls_boxes, cls_scores, max_box, max_score 
+```
+
 - IOU
 ``` bash
 def IOU(box1, box2):
@@ -50,26 +71,3 @@ def IOU(box1, box2):
 ```iou```: area of overlap / area of union
 
 <img src="./img/iou.jpg" width="900px/">
-
-- NMS
-``` bash
-def NMS(cls_boxes, cls_scores, iou_threshold):
-            
-    max_idx = np.argmax(cls_scores, 0)  
-    max_box = cls_boxes[max_idx]
-    max_score = np.array(cls_scores[max_idx])
-    max_mask = cls_boxes !=  max_box             
-    max_mask = np.reshape(max_mask[:, 0:1], [-1])
-    cls_boxes = cls_boxes[np.array(max_mask), :]
-    cls_scores = cls_scores[np.array(max_mask)]
-    ious = [IOU(max_box, x) for x in cls_boxes]
-    iou_mask = np.array(ious) <  iou_threshold
-    cls_boxes =  cls_boxes[iou_mask, :]
-    cls_scores = cls_scores[iou_mask]               
-    max_box = np.reshape(max_box, [1,-1])
-    max_score = np.reshape(max_score, [-1])
-    
-    return cls_boxes, cls_scores, max_box, max_score 
-```
-
-
