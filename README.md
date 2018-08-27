@@ -33,7 +33,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 - Loss Function
 
-
+- Output
 
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
