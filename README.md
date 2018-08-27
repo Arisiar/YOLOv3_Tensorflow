@@ -25,8 +25,29 @@ Here are some result in our test:
 python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 ``` 
 
-## Code Introduction
+## Detail
 
+The outputs from the yoloV3 model are `boxes` and `scores` which have shape [10647, 4] and [10647, 80].
+
+10647 = the numbers of grid ceils(3 scale: [13x13], [26x26], [52,52]) x the number of anchor boxes
+
+The network predicts 4 coordinates for each bounding box and 80 class predictions in COCO.
+
+``` bash
+mask = scores >= _SCORE_THRESHOLD
+boxes_ = []
+scores_ = []
+classes_ = []
+for Class in range(len(self.class_names)):          
+            
+    cls_boxes = boxes[np.array(mask[:, Class]), :]   
+    cls_scores = scores[np.array(mask[:, Class]), Class]
+    while cls_boxes.shape[0] != 0:
+        cls_boxes, cls_scores, max_box, max_score = NMS(cls_boxes, cls_scores, _IOU_THRESHOLD)             
+        boxes_.append(max_box)                
+        scores_.append(max_score)
+        classes_.append(np.ones_like(max_score, dtype=int) * Class)
+```
 - NMS
 ``` bash
 def NMS(cls_boxes, cls_scores, iou_threshold):
@@ -46,18 +67,7 @@ def NMS(cls_boxes, cls_scores, iou_threshold):
     max_score = np.reshape(max_score, [-1])   
     return cls_boxes, cls_scores, max_box, max_score 
 ```
-``` bash
-for Class in range(len(self.class_names)):          
-            
-    cls_boxes = boxes[np.array(mask[:, Class]), :]   
-    cls_scores = scores[np.array(mask[:, Class]), Class]
 
-    while cls_boxes.shape[0] != 0:
-        cls_boxes, cls_scores, max_box, max_score = NMS(cls_boxes, cls_scores, _IOU_THRESHOLD)             
-        boxes_.append(max_box)                
-        scores_.append(max_score)
-        classes_.append(np.ones_like(max_score, dtype=int) * Class)
-```
 
 - IOU
 ``` bash
