@@ -31,6 +31,10 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 <img src="./img/network.jpg" width="700px/">
 
+- Loss Function
+
+
+
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
                                feed_dict={self.inputs: inputs, self.ratio: ratio})
