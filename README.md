@@ -51,7 +51,7 @@ The outputs from the yoloV3 model are `boxes` and `scores` with shape [10647, 4]
 
 The network predicts 4 coordinates(bx, by, bw, bh) for each bounding boxes with 3 scale(13, 26, 52) and 80 class predictions in COCO.
 
-`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the NMS by IOU to choose the correct bounding boxes and classification.
+`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the NMS by computing IOU to choose the correct bounding boxes and classification.
 
 - NMS
 ``` bash
