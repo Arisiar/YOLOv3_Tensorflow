@@ -51,7 +51,7 @@ The outputs from the yoloV3 model are `boxes` and `scores` with shape [10647, 4]
 
 The network predicts 4 coordinates(bx, by, bw, bh) for each bounding boxes with 3 scale(13, 26, 52) and 80 class predictions in COCO.
 
-`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the NMS by computing IOU to choose the correct bounding boxes and classification.
+`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
 
 - NMS
 ``` bash
@@ -90,10 +90,10 @@ def IOU(box1, box2):
     iou = int_area / (b1_area + b2_area - int_area + 1e-05)
     return iou
 ```
-```box1```: ground-truth bounding boxes
+`box1`: ground-truth bounding boxes
 
-```box2```: predicted bounding boxes
+`box2`: predicted bounding boxes
 
-```iou```: area of overlap / area of union
+`iou`: area of overlap / area of union
 
 <img src="./img/iou.jpg" width="900px/">
