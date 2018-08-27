@@ -49,8 +49,9 @@ for Class in range(len(self.class_names)):
 The outputs from the yoloV3 model are `boxes` and `scores` with shape [10647, 4] and [10647, 80].
 (10647 = the number of grid cells x the number of anchor boxes)
 
-The network predicts 4 coordinates(bx, by, bw, bh) for each bounding box with 3 scale([13,13], [26,26], [52,52]) and 80 class predictions in COCO.
+The network predicts 4 coordinates(bx, by, bw, bh) for each bounding boxes with 3 scale(13, 26, 52) and 80 class predictions in COCO.
 
+`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the NMS by IOU to choose the correct bounding boxes and classification.
 
 - NMS
 ``` bash
