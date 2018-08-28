@@ -14,26 +14,26 @@ Here are some result in our test:
 <img src="./img/result.jpg" width="900px/">
 
 
-## Setup
+# Setup
 
 - Windows 10
 - Tensorflow 1.6.0
 - Python 3.6.4
 
-## How to use
+# How to use
 ``` bash
 python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 ``` 
 
-## Detail
+# Detail
 
-- **Network Architecture**
+## **Network Architecture**
 
 <img src="./img/network.jpg" width="700px/">
 
 - **Loss Function**
 
-- **Output**
+## **Output**
 <div align=center><img src="./img/predictions.jpg" width="200px/"></div>
   
 ``` bash
@@ -63,7 +63,7 @@ For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 
 
 For the real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
 
-- **NMS**
+### **NMS**
 ``` bash
 def NMS(cls_boxes, cls_scores, iou_threshold):
             
@@ -86,7 +86,7 @@ For each class, find the maximum from the `cls_scores` and select the correspond
 with other boxes. After that delete the boxes from `cls_boxes` if the IOU bigger than the `iou_threshold = 0.5`.
 Repeat the following steps until the `cls_boxes` is empty.
 
-- **IOU**
+### **IOU**
 ``` bash
 def IOU(box1, box2):
 
@@ -110,7 +110,7 @@ def IOU(box1, box2):
 
 <img src="./img/iou.jpg" width="900px/">
 
-- **Sample(NMS + IOU)**
+## **Sample(NMS + IOU)**
 ```bash
                  while cls_boxes.shape[0] != 0:
 --------------------------------------------------------------------
