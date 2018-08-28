@@ -49,9 +49,9 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
 are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid. 
 
-`x = (tx ∗ wa) − xa`  
+`bx = (tx ∗ wa) + xa`  
 
-`y = (ty ∗ ha) − ya`
+`by = (ty ∗ ha) + ya`
 
 (x and y are the actual center coordinates)
 
@@ -62,11 +62,11 @@ would shift it to the left by the same amount.
 
 The predictions `tw = log(w / wa)` and `th = log(h / ha)` will multiply with an anchor.
 
-`w = wa * e^tw`
+`bw = wa * e^tw`
 
-`h = ha * e^th`
+`bh = ha * e^th`
 
-The actual width and height are also normalised by the image, so the resultant predictions is need to multiply the size of the imaage.(416 in this test)
+The actual width and height are also normalised by the image, so the predictions is need to multiply the size of the imaage.(416 in this test)
 
 - **Objectness Score**
 
