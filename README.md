@@ -60,7 +60,7 @@ would shift it to the left by the same amount.
 
 - **Dimensions**
 
-The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with an anchor.
+The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with an anchor as a aspect ratio to adjust the size.
 
 `bw = wa * e^tw`
 
@@ -69,6 +69,8 @@ The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with a
 The actual width and height are also normalised by the image, so the resultant predictions is need to multiply the size of the image.(416 in this test)
 
 - **Confidences Score**
+
+
 
  ### Output Processing
  
