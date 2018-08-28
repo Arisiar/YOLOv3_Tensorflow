@@ -66,7 +66,7 @@ The predictions `tw = log(w / wa)` and `th = log(h / ha)` will multiply with an 
 
 `bh = ha * e^th`
 
-The actual width and height are also normalised by the image, so the predictions is need to multiply the size of the imaage.(416 in this test)
+The actual width and height are also normalised by the image, so the predictions is need to multiply the size of the image.(416 in this test)
 
 - **Objectness Score**
 
