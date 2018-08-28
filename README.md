@@ -108,7 +108,7 @@ def IOU(box1, box2):
 
 <img src="./img/iou.jpg" width="900px/">
 
-- Sample
+- Sample(NMS + IOU)
 ```bash
                  while cls_boxes.shape[0] != 0:
 --------------------------------------------------------------------
