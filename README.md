@@ -3,7 +3,7 @@
 A simple tenssorflow implement for yolov3. 
 (you can get the weight in the releases)
 
-For more detail:
+For more: 
 
 - [paper](https://arxiv.org/abs/1804.02767)
 
@@ -31,34 +31,48 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 <div align=center><img src="./img/network.jpg" width="700px/"></div>
 
-### Loss Function
-
 ### Output
 <img src="./img/predictions.jpg" width="200px/">
 
-_bx, by, bw, bh_ are the center coordinate, width and height of bounding box.
+`bx, by, bw, bh` are the center coordinates, width and height of bounding boxes.
 
-_tx, ty, tw, th_ are the prediction what the network outputs.
+`tx, ty, tw, th` are the prediction what the network outputs.
 
-_cx, cy_ are the top-left coordinates of the grid.
+`cx, cy` are the top-left coordinates of the grids.
 
-_pw, ph_ are the anchor-box dimensions for the bounding box. 
+`pw, ph` are the anchor-box dimensions for the bounding boxes. 
 
 <div align=center><img src="./img/bbox.jpg" width="500px/"></div>
 
 - **Coordinates**
 
 Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
-are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid.
+are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid. 
 
-`tx = (x - xa) / wa` 
+`x = (tx ∗ wa) − xa`  
 
-`ty = (y - ya) / ha`
+`y = (ty ∗ ha) − ya`
+
+(x and y are the actual center coordinates)
+
+For example, a prediction of tx = 1 would shift the box to the right by the width of the anchor box, a prediction of tx = −1
+would shift it to the left by the same amount.
 
 - **Dimensions**
 
+`tw*` and `th*` of the ground truth are also normalised by the original image.
 
+`tw* = log(w*/wa)`
 
+`th* = log(h*/ha)`
+
+For the actual width and height:
+
+`w = wa * e^tw`
+
+`h = wa * e^th`
+
+- **Objectness Score**
 
   
 ``` bash
