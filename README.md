@@ -52,6 +52,7 @@ Instead of predicting the center directly, YOLO predicts the offsets relative to
 are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid.
 
 `tx = (x - xa) / wa` 
+
 `ty = (y - ya) / ha`
 
 - **Dimensions**
