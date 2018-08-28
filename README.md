@@ -60,11 +60,11 @@ would shift it to the left by the same amount.
 
 - **Dimensions**
 
-`tw*` and `th*` of the ground truth are also normalised by the original image.
+width and height are also normalised by the anchor boxes.
 
-`tw* = log(w*/wa)`
+`tw = log(w/wa)`
 
-`th* = log(h*/ha)`
+`th = log(h/ha)`
 
 For the actual width and height:
 
