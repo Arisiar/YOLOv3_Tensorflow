@@ -59,7 +59,7 @@ The outputs from the yoloV3 model are `boxes` and `scores` with shape [10647, 4]
 
 The network predicts 4 coordinates(bx, by, bw, bh) for each bounding boxes with 3 scale(13, 26, 52) and 80 class predictions in COCO dataset.
 
-`mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
+For the real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
 
 - NMS
 ``` bash
@@ -80,9 +80,8 @@ def NMS(cls_boxes, cls_scores, iou_threshold):
     max_score = np.reshape(max_score, [-1])   
     return cls_boxes, cls_scores, max_box, max_score 
 ```
-Repeat the following steps until the `cls_boxes` is empty:
-
-Find the maximum from the `cls_scores` and select the corresponding box to save as an output and caculate the IOU 
+Repeat the following steps until the `cls_boxes` is empty: 
+find the maximum from the `cls_scores` and select the corresponding box to save as an output and caculate the IOU 
 with other boxes. After that delete the boxes from `cls_boxes` if the IOU bigger than the `iou_threshold = 0.5`.   
 
 - IOU
