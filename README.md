@@ -34,7 +34,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 ### Loss Function
 
 ### Output
-<div align=center><img src="./img/predictions.jpg" width="300px/"></div>
+<img src="./img/predictions.jpg" width="100px/">
 
 _bx, by, bw, bh_ are the center coordinate, width and height of bounding box.
 
@@ -49,7 +49,7 @@ _pw, ph_ are the anchor-box dimensions for the bounding box.
 Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
 are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid.
 
-<img src="./img/bbox.jpg" width="300px/">
+<div align=center><img src="./img/bbox.jpg" width="500px/"></div>
   
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
