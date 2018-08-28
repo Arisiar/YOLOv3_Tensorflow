@@ -56,7 +56,7 @@ for Class in range(len(self.class_names)):
 
 `boxes`: [10647, 4] 
 
-`scores`:[10647, 80]
+`scores`: [10647, 80]
 
 For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
 
