@@ -60,17 +60,13 @@ would shift it to the left by the same amount.
 
 - **Dimensions**
 
-width and height are also normalised by the anchor boxes.
-
-`tw = log(w/wa)`
-
-`th = log(h/ha)`
-
-For the actual width and height:
+The predictions `t(w, h) = log((w,h)/(wa,ha))` will multiply with an anchor.
 
 `w = wa * e^tw`
 
-`h = wa * e^th`
+`h = ha * e^th`
+
+The actual width and height are also normalised by the image, so predictions is need to multiply the size of the imaage.(416 in this test)
 
 - **Objectness Score**
 
