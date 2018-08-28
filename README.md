@@ -80,7 +80,7 @@ def NMS(cls_boxes, cls_scores, iou_threshold):
     max_score = np.reshape(max_score, [-1])   
     return cls_boxes, cls_scores, max_box, max_score 
 ```
-Find the maximum from the `cls_scores` and select the corresponding box to save as an output and caculate the IOU 
+Find the maximum from the `cls_scores` and select the corresponding box to save as an output and calculate the IOU 
 with other boxes. After that delete the boxes from `cls_boxes` if the IOU bigger than the `iou_threshold = 0.5`.
 Repeat the following steps until the `cls_boxes` is empty.
 
