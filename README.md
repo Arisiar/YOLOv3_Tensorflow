@@ -34,7 +34,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 - **Loss Function**
 
 - **Output**
-
+<img src="./img/predictions.jpg" width="700px/">
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
                                feed_dict={self.inputs: inputs, self.ratio: ratio})
