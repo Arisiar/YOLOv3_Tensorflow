@@ -35,6 +35,16 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ### **Output**
 <div align=center><img src="./img/predictions.jpg" width="200px/"></div>
+
+_bx, by, bw, bh_ are the center coordinate, width and height of bounding box.
+
+_tx, ty, tw, th_ are the prediction what the network outputs.
+
+_cx, cy_ are the top-left coordinates of the grid.
+
+_pw, ph_ are the anchor-boxes dimensions for the box. 
+
+
   
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
