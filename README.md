@@ -107,3 +107,52 @@ def IOU(box1, box2):
 `iou`: area of overlap / area of union
 
 <img src="./img/iou.jpg" width="900px/">
+
+- Sample
+```bash
+                 while cls_boxes.shape[0] != 0:
+--------------------------------------------------------------------
+cls_boxes:  [[153, 278, 300, 312]
+             [125, 714, 315, 747]
+             [140, 785, 229, 796]]
+cls_scores:  [0.74, 0.50, 0.54]
+
+max_boxes: [153, 278, 300, 312] (max_idx = 0)
+IOU: 
+    max_X0(153, 125), max_X0(153, 140) = [153, 153] (TopLeft x)
+    max_Y0(278, 714), max_Y0(278, 785) = [714, 785] (TopLeft y)
+    min_X1(300, 315), min_X1(300, 229) = [300, 229] (BottomRight x)
+    min_Y1(312, 747), min_Y1(313, 796) = [312, 313] (BottomRight y)
+    
+    overlap = [-59094, -35872] (no overlap if <= 0)
+    union = [65364, 36851]
+    iou = [-0.90, -0.97] (overlap / union) < iou_threshold = 0.5
+    
+cls_boxes: [[125, 714, 315, 747]
+            [140, 785, 229, 796]]    
+--------------------------------------------------------------------
+cls_boxes: [[125, 714, 315, 747]
+            [140, 785, 229, 796]]
+cls_scores: [0.50, 0.54]
+
+max_boxes: [140, 785, 229, 796] (max_idx = 1)
+IOU:
+    max_X0(140, 125) = [140] (TopLeft x)
+    max_Y0(785, 714) = [785] (TopLeft y)
+    min_X1(229, 315) = [229] (BottomRight x)
+    min_Y1(796, 747) = [747] (BottomRight y)
+    
+    overlap = [-3382] (no overlap if <= 0)
+    union = [10631]
+    iou = [-0.32] (overlap / union) < iou_threshold = 0.5
+    
+cls_boxes: [[125, 714, 315, 747]]
+--------------------------------------------------------------------
+cls_boxes: [[125, 714, 315, 747]]
+cls_scores: [0.50]
+
+max_boxes: [125, 714, 315, 747]
+cls_boxes: []
+--------------------------------------------------------------------
+                 cls_boxes.shape[0] == 0: End Loop  
+```
