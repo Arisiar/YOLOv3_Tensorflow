@@ -29,12 +29,12 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ### Network Architecture
 
-<img src="./img/network.jpg" width="700px/">
+<div align=center><img src="./img/network.jpg" width="700px/"></div>
 
 ### Loss Function
 
 ### Output
-<img src="./img/predictions.jpg" width="100px/">
+<img src="./img/predictions.jpg" width="200px/">
 
 _bx, by, bw, bh_ are the center coordinate, width and height of bounding box.
 
