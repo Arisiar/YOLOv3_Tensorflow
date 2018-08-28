@@ -31,7 +31,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 <div align=center><img src="./img/network.jpg" width="700px/"></div>
 
-### Output
+### Predictions
 <img src="./img/predictions.jpg" width="200px/">
 
 `bx, by, bw, bh` are the center coordinates, width and height of bounding boxes.
@@ -60,17 +60,20 @@ would shift it to the left by the same amount.
 
 - **Dimensions**
 
-The predictions `tw = log(w / wa)` and `th = log(h / ha)` will multiply with an anchor.
+The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with an anchor.
 
 `bw = wa * e^tw`
 
 `bh = ha * e^th`
 
-The actual width and height are also normalised by the image, so the predictions is need to multiply the size of the image.(416 in this test)
+The actual width and height are also normalised by the image, so the resultant predictions is need to multiply the size of the image.(416 in this test)
 
-- **Objectness Score**
+- **Confidences Score**
 
-  
+ ### Output Processing
+ 
+For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
+ 
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
                                feed_dict={self.inputs: inputs, self.ratio: ratio})
@@ -94,9 +97,7 @@ for Class in range(len(self.class_names)):
 
 `scores`: [10647, 80]
 
-For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
-
-For the real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
+The real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
 
 #### NMS
 ``` bash
