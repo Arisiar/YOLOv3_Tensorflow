@@ -46,8 +46,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 - **Coordinates**
 
-Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
-are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid. 
+Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird. It is normalised between 0 and 1 by the dimensions of the grid. 
 
 `bx = (tx ∗ wa) + xa`  
 
@@ -70,9 +69,21 @@ The actual width and height are also normalised by the image, so the resultant p
 
 - **Confidences Score**
 
+`Pr(object) ∗ IOU(b, object)`
+
+- **Class Prediction**
 
 
- ### Output Processing
+
+- **Multi-Scale**
+
+
+
+### Loss Function
+
+
+
+### Output Processing
  
 For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
  
