@@ -27,7 +27,7 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 ## Detail
 
-- Network Architecture
+- **Network Architecture**
 
 <img src="./img/network.jpg" width="700px/">
 
