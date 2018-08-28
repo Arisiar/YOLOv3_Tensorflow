@@ -44,12 +44,21 @@ _cx, cy_ are the top-left coordinates of the grid.
 
 _pw, ph_ are the anchor-box dimensions for the bounding box. 
 
+<div align=center><img src="./img/bbox.jpg" width="500px/"></div>
+
 - **Coordinates**
 
 Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
 are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid.
 
-<div align=center><img src="./img/bbox.jpg" width="500px/"></div>
+`tx = (x - xa) / wa` 
+`ty = (y - ya) / ha`
+
+- **Dimensions**
+
+
+
+
   
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
@@ -127,7 +136,7 @@ def IOU(box1, box2):
 
 ### Sample
 ```bash
-Data will compute the NMS like the following:
+Compute the NMS and IOU like the following:
 
                  while cls_boxes.shape[0] != 0:
 --------------------------------------------------------------------
