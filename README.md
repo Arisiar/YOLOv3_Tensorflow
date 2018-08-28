@@ -27,14 +27,14 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 # Detail
 
-### **Network Architecture**
+### Network Architecture
 
 <img src="./img/network.jpg" width="700px/">
 
-- **Loss Function**
+### Loss Function
 
-### **Output**
-<div align=center><img src="./img/predictions.jpg" width="200px/"></div>
+### Output
+<div align=center><img src="./img/predictions.jpg" width="300px/"></div>
 
 _bx, by, bw, bh_ are the center coordinate, width and height of bounding box.
 
@@ -42,9 +42,14 @@ _tx, ty, tw, th_ are the prediction what the network outputs.
 
 _cx, cy_ are the top-left coordinates of the grid.
 
-_pw, ph_ are the anchor-boxes dimensions for the box. 
+_pw, ph_ are the anchor-box dimensions for the bounding box. 
 
+- **Coordinates**
 
+Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird which
+are responsible for the object. It is normalised between 0 and 1 by the dimensions of the grid.
+
+<img src="./img/bbox.jpg" width="300px/">
   
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
@@ -73,7 +78,7 @@ For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 
 
 For the real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
 
-#### **NMS**
+#### NMS
 ``` bash
 def NMS(cls_boxes, cls_scores, iou_threshold):
             
@@ -96,7 +101,7 @@ For each class, find the maximum from the `cls_scores` and select the correspond
 with other boxes. After that delete the boxes from `cls_boxes` if the IOU bigger than the `iou_threshold = 0.5`.
 Repeat the following steps until the `cls_boxes` is empty.
 
-#### **IOU**
+#### IOU
 ``` bash
 def IOU(box1, box2):
 
@@ -120,8 +125,10 @@ def IOU(box1, box2):
 
 <img src="./img/iou.jpg" width="900px/">
 
-### **Sample(NMS + IOU)**
+### Sample
 ```bash
+Data will compute the NMS like the following:
+
                  while cls_boxes.shape[0] != 0:
 --------------------------------------------------------------------
 cls_boxes:  [[153, 278, 300, 312]
