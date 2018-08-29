@@ -67,9 +67,9 @@ The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with a
 
 The actual width and height are also normalised by the image, so the resultant predictions is need to multiply the size of the image.(416 in this test)
 
-- **Confidences Score**
+- **Objectness Score**
 
-`Pr(object) ∗ IOU(b, object)`
+Objectness score reflect the probability that an object is contained inside the box `Pr(object) ∗ IOU(truth, pred)`. If no object exists in that cell, the scores should be zero. Each grid also predicts the class probabilities `Pr(Class|Object)`. It will multiply these class probabilities `Pr(Class|Object) * Pr(object) ∗ IOU(truth, pred) = Pr(Class) ∗ IOU(truth, pred)`at test time. 
 
 - **Class Prediction**
 
