@@ -69,7 +69,7 @@ The actual width and height are also normalised by the image, so the resultant p
 
 - **Objectness Score**
 
-Objectness score `Pr(object) ∗ IOU(truth, pred)` is passed through a sigmoid which reflect the probability that an object is contained inside the box. If no object exists in that cell, the scores should be zero. Each grid also predicts the class probabilities `Pr(Class|Object)`. It will multiply these class probabilities `Pr(Class|Object) * Pr(object) ∗ IOU(truth, pred) = Pr(Class) ∗ IOU(truth, pred)`at test time. 
+Confidence scored reflect the probability that an object is contained inside the box. Instead objectness score is using logistic regression. Objectness shoud be _one_ if the bounding box overlap with groud truth is more than other and should be _zero_ or _ignore_ if overlap is more or not than the threshold (0.5 here).
 
 - **Class Prediction**
 
@@ -81,7 +81,11 @@ YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature map
 
 ### Loss Function
 
+Training use sum of squared error loss. 
+
 <div align=center><img src="./img/loss.jpg" width="500px/"></div>
+
+Loss penalizes coordinate and class predictions error if an object is assigned to a grid, otherwise it only penalizes objectness.
 
 ### Output Processing
  
