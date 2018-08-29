@@ -150,7 +150,7 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
 
     return loss
 ```
-(Note: The code above is just a sample cause it can not run  actually.)
+(Note: The code above is just a sample so it can not run actually.)
 
 
 ### Output Processing
