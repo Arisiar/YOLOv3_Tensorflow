@@ -73,7 +73,7 @@ Objectness score `Pr(object) ∗ IOU(truth, pred)` is passed through a sigmoid w
 
 - **Class Prediction**
 
-Each grid may contain using multilabel classification. YOLO used to softmax the class scores before v3. However, using a softmax imposes the assumption that each box has exactly one class which is often not the case. Instead v3 use independent logistic classifiers like binary cross-entropy which better models the data for the class predictions.
+YOLO used to softmax the class scores before v3. However, using a softmax imposes the assumption that each box has exactly one class which is often not the case. Instead v3 uses independent logistic classifiers like binary cross-entropy which can models the data for multilabel class prediction better.
 
 - **Multi-Scale**
 
