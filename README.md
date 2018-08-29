@@ -81,11 +81,68 @@ YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature map
 
 ### Loss Function
 
-Training use sum of squared error loss. 
-
-<div align=center><img src="./img/loss.jpg" width="500px/"></div>
+Training use sum of squared error loss and binary cross-entropy. 
 
 Loss penalizes coordinate and class predictions error if an object is assigned to a grid, otherwise it only penalizes objectness.
+
+```bash
+def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
+
+    def BCE(logits, labels):
+        return tf.reduce_sum(
+                tf.nn.sigmoid_cross_entropy_with_logits(logits=logits, labels=labels))
+        
+    anchor_mask = [[6, 7, 8], [3, 4, 5], [0, 1, 2]]
+    # input_shape = (416 * 416) = yolo_outputs[0] * 32 = (13 * 13) * 32
+    input_shape = tf.cast(tf.shape(yolo_outputs[0])[1:3] * 32, tf.dtype(y_true[0]))
+    # grid shape(3 scale) -> [13,13] [26,26] [52,52]
+    grid_shapes = [tf.cast(tf.shape(yolo_outputs[scale])[1:3], tf.dtype(y_true[0])) for scale in range(3)]
+    loss = 0
+    batch = tf.shape(yolo_outputs[0])[0] 
+    # muti scale(3)
+    for scale in range(3):
+        
+        # Pr(object) -> the probability about object is in the grid cell or not
+        obj = y_true[scale][..., 4:5]  
+        noobj = 1 - obj
+        # Pr(class) -> 80 classes
+        true_class_probs = y_true[scale][..., 5:] 
+ 
+        grid, pred, box_xy, box_wh = compute_boxes(yolo_outputs[scale],
+                                                   anchors[anchor_mask[scale]], 
+                                                   num_classes, 
+                                                   ratio,
+                                                   is_train=True)
+        box = tf.concat([box_xy, box_wh])
+        # box_loss_scale is as λ to counterpoise the box size  
+        box_loss_scale = 2 - y_true[scale][..., 2:3] * y_true[scale][..., 3:4]
+        box_xy_true = y_true[scale][..., :2] * grid_shapes[scale][::-1] - grid
+        box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]] * input_shape[-1])        
+
+        # Find ignore mask for each batch.
+        ignore = tf.TensorArray(tf.dtype(y_true[0]), size=1, dynamic_size=True)
+    
+        def cond(n, ignore):
+                  return n < batch
+        def body(n, ignore):
+            true_box = tf.boolean_mask(y_true[scale][n, ..., 0:4], tf.cast(obj, 'bool'))
+            iou = IOU(box[n], true_box)
+            max_iou = tf.argmax(iou, axis=-1)
+            ignore = ignore.write(n, tf.cast(max_iou < ignore_thresh, tf.dtype(true_box)))
+            return n + 1, ignore
+
+        _, ignore = tf.while_loop(cond, body, [0, ignore])
+        ignore = tf.expand_dims(ignore.stack(), -1)
+
+        xy_loss = obj * box_loss_scale * BCE(pred[..., 0:2], box_xy_true)
+        wh_loss = obj * box_loss_scale * tf.square(box_wh_true - pred[..., 2:4]) / 2
+        objectness_loss = obj * BCE(pred[..., 4:5], obj) + noobj * BCE(pred[..., 4:5], obj) * ignore
+        class_loss = obj * BCE(pred[..., 5:], true_class_probs)
+
+        loss += (xy_loss + wh_loss + objectness_loss + class_loss) / tf.cast(batch, tf.dtype(yolo_outputs[0]))
+
+    return loss
+```
 
 ### Output Processing
  
