@@ -81,7 +81,7 @@ YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature map
 
 ### Loss Function
 
-Training use sum of squared error loss and binary cross-entropy. 
+Training use sum of squared error loss(width, height) and binary cross-entropy(coordinate, objectness and class). 
 
 Loss penalizes coordinate and class predictions error if an object is assigned to a grid, otherwise it only penalizes objectness.
 
@@ -102,10 +102,11 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
     # muti scale(3)
     for scale in range(3):
         
-        # Pr(object) -> the probability about object is in the grid cell or not
+        # obj and noobj are mask about the probability of object in the grid cell or not
         obj = y_true[scale][..., 4:5]  
         noobj = 1 - obj
-        # Pr(class) -> 80 classes
+        
+        # COCO dataset for 80 classes
         true_class_probs = y_true[scale][..., 5:] 
  
         grid, pred, box_xy, box_wh = compute_boxes(yolo_outputs[scale],
@@ -114,8 +115,13 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
                                                    ratio,
                                                    is_train=True)
         box = tf.concat([box_xy, box_wh])
+        
         # box_loss_scale is as λ to counterpoise the box size  
         box_loss_scale = 2 - y_true[scale][..., 2:3] * y_true[scale][..., 3:4]
+        
+        # Note the xy and wh are normalised by grid size and image size.
+        # b(x, y) = σ(t(x,y)) + GRID_CELL(x,y) / grid_size(13, 26, 52)                             
+        # b(w, h) = (p(w,h) * e^t(w ,h) / image_size(416)
         box_xy_true = y_true[scale][..., :2] * grid_shapes[scale][::-1] - grid
         box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]] * input_shape[-1])        
 
@@ -126,14 +132,15 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
                   return n < batch
         def body(n, ignore):
             true_box = tf.boolean_mask(y_true[scale][n, ..., 0:4], tf.cast(obj, 'bool'))
-            iou = IOU(box[n], true_box)
+            iou = box_IoU(box[n], true_box)
             max_iou = tf.argmax(iou, axis=-1)
             ignore = ignore.write(n, tf.cast(max_iou < ignore_thresh, tf.dtype(true_box)))
             return n + 1, ignore
 
         _, ignore = tf.while_loop(cond, body, [0, ignore])
         ignore = tf.expand_dims(ignore.stack(), -1)
-
+        
+        # Compute the loss 
         xy_loss = obj * box_loss_scale * BCE(pred[..., 0:2], box_xy_true)
         wh_loss = obj * box_loss_scale * tf.square(box_wh_true - pred[..., 2:4]) / 2
         objectness_loss = obj * BCE(pred[..., 4:5], obj) + noobj * BCE(pred[..., 4:5], obj) * ignore
@@ -143,6 +150,8 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
 
     return loss
 ```
+(Note: The code above is just a sample cause it can not run  actually.)
+
 
 ### Output Processing
  
