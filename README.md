@@ -110,7 +110,7 @@ for Class in range(len(self.class_names)):
 
 `scores`: [10647, 80]
 
-The real output, `mask` use to divide `score` into positive and negative with `_SCORE_THRESHOLD = 0.5` then use the `NMS` by computing `IOU` to choose the correct bounding boxes and classification.
+The real output uses `mask` to set scores into positive and negative based on `_SCORE_THRESHOLD = 0.5`. Then `NMS` is used by computing `IOU` to choose correct bounding boxes and classifications.
 
 #### NMS
 ``` bash
@@ -132,7 +132,7 @@ def NMS(cls_boxes, cls_scores, iou_threshold):
     return cls_boxes, cls_scores, max_box, max_score 
 ```
 For each class, find the maximum from the `cls_scores` and select the corresponding box to save as an output and calculate the IOU 
-with other boxes. After that delete the boxes from `cls_boxes` if the IOU bigger than the `iou_threshold = 0.5`.
+with other boxes. After that delete the boxes from `cls_boxes` if the IOU is bigger than the `iou_threshold = 0.5`.
 Repeat the following steps until the `cls_boxes` is empty.
 
 #### IOU
