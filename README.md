@@ -1,6 +1,6 @@
 # YOLOv3_Tensorflow
 
-A simple tenssorflow implement for yolov3. 
+A simple tensorflow implement for yolov3. 
 (you can get the weight in the releases)
 
 For more: 
@@ -85,7 +85,7 @@ YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature map
 
 ### Output Processing
  
-For an image of size 416 * 416, network prdicts ((52*52) + (26*26) + (13*13)) * 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
+For an image of size 416 * 416, network prdicts ((52x52) + (26x26) + (13x13)) x 3 = 10647 bounding boxes with 4 coordinates(bx, by, bw, bh) and 80 class predictions in COCO dataset.
  
 ``` bash
 boxes, scores = self.sess.run([self.boxes, self.scores], 
