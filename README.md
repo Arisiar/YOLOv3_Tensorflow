@@ -77,7 +77,7 @@ Each grid may contain using multilabel classification. YOLO used to softmax the 
 
 - **Multi-Scale**
 
-YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature maps from eariler in the nerwork have stride 32, 16 and 8 as the prdiction by feature pyramid nerwork. So the tensor is _N × N × (3 ∗ (4 + 1 + 80))_ for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
+YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature maps from eariler in the nerwork have stride 32, 16 and 8 as the prdiction by feature pyramid nerwork. So the tensor is _N × N × (3 x (4 + 1 + 80))_ for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
 
 ### Loss Function
 
