@@ -69,15 +69,15 @@ The actual width and height are also normalised by the image, so the resultant p
 
 - **Objectness Score**
 
-Objectness score reflect the probability that an object is contained inside the box `Pr(object) ∗ IOU(truth, pred)`. If no object exists in that cell, the scores should be zero. Each grid also predicts the class probabilities `Pr(Class|Object)`. It will multiply these class probabilities `Pr(Class|Object) * Pr(object) ∗ IOU(truth, pred) = Pr(Class) ∗ IOU(truth, pred)`at test time. 
+Objectness score `Pr(object) ∗ IOU(truth, pred)` is passed through a sigmoid which reflect the probability that an object is contained inside the box. If no object exists in that cell, the scores should be zero. Each grid also predicts the class probabilities `Pr(Class|Object)`. It will multiply these class probabilities `Pr(Class|Object) * Pr(object) ∗ IOU(truth, pred) = Pr(Class) ∗ IOU(truth, pred)`at test time. 
 
 - **Class Prediction**
 
-
+Each grid may contain using multilabel classification. YOLO used to softmax the class scores before v3. However, using a softmax imposes the assumption that each box has exactly one class which is often not the case. Instead v3 use independent logistic classifiers like binary cross-entropy which better models the data for the class predictions.
 
 - **Multi-Scale**
 
-
+YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature maps from eariler in the nerwork have stride 32, 16 and 8 as the prdiction by feature pyramid nerwork. So the tensor is _N × N × (3 ∗ (4 + 1 + 80))_ for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
 
 ### Loss Function
 
