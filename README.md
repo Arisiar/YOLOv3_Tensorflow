@@ -31,7 +31,15 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 <div align=center><img src="./img/network.jpg" width="700px/"></div>
 
+YOLOv3 predicts boxes at 3 different scales 13, 26 and 52 by using Darknet-53 and feature pyramid nerwork(FPN). It has 75 convolutional layers(53 for Darknet and 23 for FPN) with the 416 x 416 inputs, then an input image will yield an output of size 13 x 13 by daeknet-53 and FPN will use these feature maps from eariler in the nerwork to predict which have stride 32, 16 and 8.
+
+- **Anchor box**
+
+
 ### Predictions
+
+The tensor is N × N × (3 x (4 + 1 + 80)) for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
+
 <img src="./img/predictions.jpg" width="200px/">
 
 `bx, by, bw, bh` are the center coordinates, width and height of bounding boxes.
