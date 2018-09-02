@@ -31,14 +31,15 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 <div align=center><img src="./img/network.jpg" width="700px/"></div>
 
-YOLOv3 predicts boxes at 3 different scales 13, 26 and 52 by using Darknet-53 and feature pyramid nerwork(FPN). It has 75 convolutional layers(53 for Darknet and 23 for FPN) with the 416 x 416 inputs, then an input image will yield an output of size 13 x 13 by daeknet-53 and FPN will use these feature maps from eariler in the nerwork to predict which have stride 32, 16 and 8.
+YOLOv3 predicts boxes at 3 different scales 13, 26 and 52 by using Darknet-53 and feature pyramid nerwork(FPN). It has 75 convolutional layers with the 416 x 416 inputs, then an input image will yield an output of size 13 x 13 by darknet-53 and FPN will use these feature maps from eariler in the nerwork which have stride 32, 16 and 8.
 
 - **Anchor box**
 
+The direct prediction about width and height of the bounding boxes is a intuitive idea. However, it might lead to unstable gradients during training. Instead, simply offset with the predefined bounding boxes is another useful method called anchors. 
 
 ### Predictions
 
-The tensor is N × N × (3 x (4 + 1 + 80)) for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
+The output tensor is N × N × S x (4 + 1 + 80) for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions. N x N x S represents the number of grids with S = 3 anchor boxes.
 
 <img src="./img/predictions.jpg" width="200px/">
 
@@ -158,8 +159,6 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
 
     return loss
 ```
-(Note: The code above is just a sample so it can not run actually.)
-
 
 ### Output Processing
  
