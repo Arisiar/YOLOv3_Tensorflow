@@ -27,6 +27,8 @@ python main.py --input_img [YOUR INPUT] --output_img [YOUR OUTPUT]
 
 # Detail
 
+YOLO is a fast end-to-end training model. It splits the image into a lot of samll squares called grid cell. Each grid will responsible to predict an object if the center of the object falls in the receptive field of that grid. 
+
 ### Network Architecture
 
 <div align=center><img src="./img/network.jpg" width="700px/"></div>
@@ -35,7 +37,7 @@ YOLOv3 predicts boxes at 3 different scales 13, 26 and 52 by using Darknet-53 an
 
 - **Anchor box**
 
-The direct prediction about width and height of the bounding boxes is a intuitive idea. However, it might lead to unstable gradients during training. Instead, simply offset with the predefined bounding boxes is another useful method called anchors. 
+The direct prediction about coordinates and dimensions of the bounding boxes is a intuitive idea. However, it might lead to unstable gradients during training. Instead, simply offset with the predefined bounding boxes is another useful method called anchors. 
 
 ### Predictions
 
@@ -55,13 +57,13 @@ The output tensor is N × N × S x (4 + 1 + 80) for the 4 bounding box offsets, 
 
 - **Coordinates**
 
-Instead of predicting the center directly, YOLO predicts the offsets relative to the top-left corner of the gird. It is normalised between 0 and 1 by the dimensions of the grid. 
+ As mentioned previously, YOLO predicts the offsets relative to the top-left corner of the gird instead of absolute coordinates. It is normalised between 0 and 1 by the dimensions of the grid. 
 
 `bx = (tx ∗ wa) + xa`  
 
 `by = (ty ∗ ha) + ya`
 
-(x and y are the actual center coordinates)
+(bx and by are the actual center coordinates)
 
 For example, a prediction of tx = 1 would shift the box to the right by the width of the anchor box, a prediction of tx = −1
 would shift it to the left by the same amount.
@@ -73,8 +75,6 @@ The predictions `tw = log(bw / wa)` and `th = log(bh / ha)` will multiply with a
 `bw = wa * e^tw`
 
 `bh = ha * e^th`
-
-The actual width and height are also normalised by the image, so the resultant predictions is need to multiply the size of the image.(416 in this test)
 
 - **Objectness Score**
 
@@ -124,11 +124,12 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
         # box_loss_scale is as λ to counterpoise the box size  
         box_loss_scale = 2 - y_true[scale][..., 2:3] * y_true[scale][..., 3:4]
         
-        
         # b(x, y) = (σ(t(x,y)) + GRID_CELL(x,y)) / grid_size(13 | 26 | 52)                             
-        # b(w, h) = (p(w,h) * e^t(w ,h)
+        # the offset will be limited to the size of gird during training
         box_xy_true = y_true[scale][..., :2] * grid_shapes[scale][::-1] - grid
-        box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]])        
+        
+        # b(w, h) = (p(w,h) * e^t(w ,h) / image_size(416)
+        box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]] * input_shape[-1])        
 
         # Find ignore mask for each batch.
         ignore = tf.TensorArray(tf.dtype(y_true[0]), size=1, dynamic_size=True)
