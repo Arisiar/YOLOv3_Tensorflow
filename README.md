@@ -125,10 +125,10 @@ def compute_loss(yolo_outputs, y_true, anchors, num_classes, ratio):
         box_loss_scale = 2 - y_true[scale][..., 2:3] * y_true[scale][..., 3:4]
         
         
-        # b(x, y) = (σ(t(x,y)) + GRID_CELL(x,y)) / grid_size(13, 26, 52)                             
+        # b(x, y) = (σ(t(x,y)) + GRID_CELL(x,y)) / grid_size(13 | 26 | 52)                             
         # b(w, h) = (p(w,h) * e^t(w ,h)
         box_xy_true = y_true[scale][..., :2] * grid_shapes[scale][::-1] - grid
-        box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]] * input_shape[-1])        
+        box_wh_true = tf.log(y_true[scale][..., 2:4] / anchors[anchor_mask[scale]])        
 
         # Find ignore mask for each batch.
         ignore = tf.TensorArray(tf.dtype(y_true[0]), size=1, dynamic_size=True)
