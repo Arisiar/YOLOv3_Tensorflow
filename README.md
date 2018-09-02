@@ -84,10 +84,6 @@ Confidence scored reflect the probability that an object is contained inside the
 
 YOLO used to softmax the class scores before v3. However, using a softmax imposes the assumption that each box has exactly one class which is often not the case. Instead v3 uses independent logistic classifiers like binary cross-entropy which can models the data for multilabel class prediction better.
 
-- **Multi-Scale**
-
-YOLOv3 predicts boxes at 3 different scales 13, 26 and 52. Using the feature maps from eariler in the nerwork have stride 32, 16 and 8 as the prdiction by feature pyramid nerwork. So the tensor is _N × N × (3 x (4 + 1 + 80))_ for the 4 bounding box offsets, 1 objectness prediction, and 80 class predictions.
-
 ### Loss Function
 
 Training use sum of squared error loss(width, height) and binary cross-entropy(coordinate, objectness and class). 
